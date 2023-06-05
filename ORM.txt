@@ -1,0 +1,45 @@
+
+u1 = User.objects.create_user(username='Jon')
+
+u2 = User.objects.create_user(username='Dan')
+
+
+author1 = Author.objects.create(authorUser=u1)
+
+author2 = Author.objects.create(authorUser=u2)
+
+
+cat1 = Category.objects.create(name='IT')
+
+cat2 = Category.objects.create(name='Cars')
+
+cat3 = Category.objects.create(name='Space')
+
+cat4 = Category.objects.create(name='Traveling')
+
+
+Post.objects.create(author=author1, categoryType='NW', title='about it', text='text it')
+
+Post.objects.create(author=author1, categoryType='AR', title='about car', text='text car')
+
+Post.objects.create(author=author2, categoryType='NW', title='about space', text='text space')
+
+Post.objects.create(author=author2, categoryType='AR', title='about traveling', text='text traveling')
+
+
+Post.objects.get(pk=1).postCategory.add(Category.objects.get(pk=1))
+
+Post.objects.get(pk=2).postCategory.add(Category.objects.get(pk=2))
+
+Post.objects.get(pk=3).postCategory.add(Category.objects.get(pk=3))
+
+Post.objects.get(pk=4).postCategory.add(Category.objects.get(pk=4))
+
+
+Comment.objects.create(commentPost=Post.objects.get(pk=1), commentUser=Author.objects.get(pk=1).authorUser, text='great')
+
+Comment.objects.create(commentPost=Post.objects.get(pk=2), commentUser=Author.objects.get(pk=1).authorUser, text='cool!')
+
+Comment.objects.create(commentPost=Post.objects.get(pk=3), commentUser=Author.objects.get(pk=2).authorUser, text='nice')
+
+Comment.objects.create(commentPost=Post.objects.get(pk=4), commentUser=Author.objects.get(pk=2).authorUser, text='good')
