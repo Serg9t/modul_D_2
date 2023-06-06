@@ -1,14 +1,19 @@
 
-u1 = User.objects.create_user(username='Jon')
+#Создаем пользователей
+u1 = User.objects.create_user(username='Jason')
 
-u2 = User.objects.create_user(username='Dan')
+u2 = User.objects.create_user(username='Fedor')
 
 
+
+#Создаем объекты модели Author
 author1 = Author.objects.create(authorUser=u1)
 
 author2 = Author.objects.create(authorUser=u2)
 
 
+
+#Создаем Категории
 cat1 = Category.objects.create(name='IT')
 
 cat2 = Category.objects.create(name='Cars')
@@ -18,6 +23,8 @@ cat3 = Category.objects.create(name='Space')
 cat4 = Category.objects.create(name='Traveling')
 
 
+
+#Создаем статьи/новости
 Post.objects.create(author=author1, categoryType='NW', title='about it', text='text it')
 
 Post.objects.create(author=author1, categoryType='AR', title='about car', text='text car')
@@ -27,6 +34,8 @@ Post.objects.create(author=author2, categoryType='NW', title='about space', text
 Post.objects.create(author=author2, categoryType='AR', title='about traveling', text='text traveling')
 
 
+
+#Присваиваем категории
 Post.objects.get(pk=1).postCategory.add(Category.objects.get(pk=1))
 
 Post.objects.get(pk=2).postCategory.add(Category.objects.get(pk=2))
@@ -36,6 +45,8 @@ Post.objects.get(pk=3).postCategory.add(Category.objects.get(pk=3))
 Post.objects.get(pk=4).postCategory.add(Category.objects.get(pk=4))
 
 
+
+#Создаем комментарии
 Comment.objects.create(commentPost=Post.objects.get(pk=1), commentUser=Author.objects.get(pk=1).authorUser, text='great')
 
 Comment.objects.create(commentPost=Post.objects.get(pk=2), commentUser=Author.objects.get(pk=1).authorUser, text='cool!')
@@ -43,3 +54,72 @@ Comment.objects.create(commentPost=Post.objects.get(pk=2), commentUser=Author.ob
 Comment.objects.create(commentPost=Post.objects.get(pk=3), commentUser=Author.objects.get(pk=2).authorUser, text='nice')
 
 Comment.objects.create(commentPost=Post.objects.get(pk=4), commentUser=Author.objects.get(pk=2).authorUser, text='good')
+
+
+
+#применяем функцию like() к моделям Post и Comment
+Comment.objects.get(pk=1).like()
+
+Post.objects.get(pk=1).like()
+
+Post.objects.get(pk=2).like()
+
+Comment.objects.get(pk=2).like()
+
+Post.objects.get(pk=3).like()
+
+Post.objects.get(pk=3).like()
+
+Post.objects.get(pk=4).like()
+
+Post.objects.get(pk=4).like()
+
+Comment.objects.get(pk=3).like()
+
+Comment.objects.get(pk=3).like()
+
+Comment.objects.get(pk=4).like()
+
+
+
+#Обновляем пользователей
+Author.objects.get(pk=1).update_rating()
+
+Author.objects.get(pk=2).update_rating()
+
+
+
+#Выводим ползователя по лучшему рейтингу
+author = Author.objects.order_by('-ratingAuthor')[:1]
+
+for i in author:
+    i.ratingAuthor
+    i.authorUser.username
+
+
+
+#Выводим дату обновления, автора, заголовок и превью лучшей статьи
+post = Post.objects.order_by('-rating')[:1]
+
+for i in post:
+    i.dateCreation
+    i.author.authorUser
+    i.rating
+    i.title
+    i.preview()
+
+
+
+comment = Comment.objects.order_by('-rating')[:1]
+for i in comment:
+     i.text
+     i.dateCreation
+     i.rating
+     i.commentUser
+
+
+
+
+
+
+
